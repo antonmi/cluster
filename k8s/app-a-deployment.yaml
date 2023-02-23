@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-a-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: app-a
+  template:
+    metadata:
+      labels:
+        component: app-a
+        cluster: beam
+    spec:
+      containers:
+        - name: app-a
+          image: app-a
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4001
+          env:
+            - name: PORT
+              value: "4001"
+            - name: ERLANG_COOKIE
+              value: "secret"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          command: [ "elixir" ]
+          args: [
+            "--name",
+            "cluster-app@$(POD_IP)",
+            "--cookie","$(ERLANG_COOKIE)",
+            "--no-halt",
+            "-S","mix",
+            "run"
+          ]
