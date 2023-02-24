@@ -20,6 +20,8 @@ spec:
           ports:
             - containerPort: 4001
           env:
+            - name: IN_K8S
+              value: "true"
             - name: PORT
               value: "4001"
             - name: ERLANG_COOKIE

@@ -4,10 +4,12 @@ defmodule AppA.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
   @impl true
   def start(_type, _args) do
     topologies = Application.get_env(:libcluster, :topologies)
+    Logger.info("topologies: #{inspect(topologies)}")
 
     children = [
       {Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]},
