@@ -15,11 +15,12 @@ defmodule AppA.Application do
       {Cluster.Supervisor, [topologies, [name: AppA.ClusterSupervisor]]}
     ]
 
-    children = if start_server? do
-      [{Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]} | children]
-    else
-      children
-    end
+    children =
+      if start_server? do
+        [{Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]} | children]
+      else
+        children
+      end
 
     opts = [strategy: :one_for_one, name: AppA.Supervisor]
     Supervisor.start_link(children, opts)
