@@ -14,26 +14,19 @@ services:
       - "4001:4001"
     environment:
       - PORT=4001
+      - START_SERVER=true
     networks:
       customnetwork:
         ipv4_address: 172.16.238.11
   app-a2:
     build: ./apps/app_a/
     command: elixir --name "app-a@172.16.238.12" --cookie secret --no-halt -S mix run
-    ports:
-      - "4002:4002"
-    environment:
-      - PORT=4002
     networks:
       customnetwork:
         ipv4_address: 172.16.238.12
   app-a3:
     build: ./apps/app_a/
     command: elixir --name "app-a@172.16.238.13" --cookie secret --no-halt -S mix run
-    ports:
-      - "4003:4003"
-    environment:
-      - PORT=4003
     networks:
       customnetwork:
         ipv4_address: 172.16.238.13
@@ -45,26 +38,19 @@ services:
       - "5001:5001"
     environment:
       - PORT=5001
+      - START_SERVER=true
     networks:
       customnetwork:
         ipv4_address: 172.16.238.21
   app-b2:
     build: ./apps/app_b/
     command: elixir --name "app-b@172.16.238.22" --cookie secret --no-halt -S mix run
-    ports:
-      - "5002:5002"
-    environment:
-      - PORT=5002
     networks:
       customnetwork:
         ipv4_address: 172.16.238.22
   app-b3:
     build: ./apps/app_b/
     command: elixir --name "app-b@172.16.238.23" --cookie secret --no-halt -S mix run
-    ports:
-      - "5003:5003"
-    environment:
-      - PORT=5003
     networks:
       customnetwork:
         ipv4_address: 172.16.238.23

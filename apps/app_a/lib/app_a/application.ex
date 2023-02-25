@@ -12,9 +12,14 @@ defmodule AppA.Application do
     Logger.info("topologies: #{inspect(topologies)}")
 
     children = [
-      {Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]},
       {Cluster.Supervisor, [topologies, [name: AppA.ClusterSupervisor]]}
     ]
+
+    children = if start_server? do
+      [{Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]} | children]
+    else
+      children
+    end
 
     opts = [strategy: :one_for_one, name: AppA.Supervisor]
     Supervisor.start_link(children, opts)
@@ -23,5 +28,9 @@ defmodule AppA.Application do
   defp port() do
     (System.get_env("PORT") || "4001")
     |> String.to_integer()
+  end
+
+  defp start_server?() do
+    System.get_env("START_SERVER") == "true"
   end
 end

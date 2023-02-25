@@ -24,6 +24,8 @@ spec:
               value: "true"
             - name: PORT
               value: "4001"
+            - name: START_SERVER
+              value: "true"
             - name: ERLANG_COOKIE
               value: "secret"
             - name: POD_IP
