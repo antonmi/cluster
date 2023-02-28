@@ -28,7 +28,8 @@ defmodule AppA.MixProject do
     [
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.4"},
-      {:libcluster, "~> 3.3"}
+      {:libcluster, "~> 3.3"},
+      {:cluster_facade, path: "../cluster_facade"}
     ]
   end
 end

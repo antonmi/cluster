@@ -39,3 +39,5 @@ cond do
         ]
       ]
 end
+
+config :cluster_facade, service_name: :app_a

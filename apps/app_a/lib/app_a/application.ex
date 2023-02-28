@@ -26,12 +26,12 @@ defmodule AppA.Application do
     Supervisor.start_link(children, opts)
   end
 
-  defp port() do
+  defp port do
     (System.get_env("PORT") || "4001")
     |> String.to_integer()
   end
 
-  defp start_server?() do
+  defp start_server? do
     System.get_env("START_SERVER") == "true"
   end
 end
