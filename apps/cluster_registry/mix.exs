@@ -1,9 +1,9 @@
-defmodule Facade.MixProject do
+defmodule ClusterRegistry.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :facade,
+      app: :cluster_registry,
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -18,8 +18,7 @@ defmodule Facade.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      mod: {Facade.Application, []}
+      extra_applications: [:logger]
     ]
   end
 

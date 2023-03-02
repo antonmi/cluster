@@ -29,7 +29,7 @@ defmodule AppB.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.4"},
       {:libcluster, "~> 3.3"},
-      {:cluster_facade, path: "../cluster_facade"}
+      {:cluster_registry, path: "../cluster_registry"}
     ]
   end
 end

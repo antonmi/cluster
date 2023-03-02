@@ -12,11 +12,12 @@ defmodule AppA.Application do
     Logger.info("topologies: #{inspect(topologies)}")
 
     children = [
-      {Cluster.Supervisor, [topologies, [name: AppA.ClusterSupervisor]]}
+      {Cluster.Supervisor, [topologies, [name: AppA.ClusterSupervisor]]},
+      {ClusterRegistry, "app_a_#{postfix()}"}
     ]
 
     children =
-      if start_server? do
+      if start_server?() do
         [{Plug.Cowboy, scheme: :http, plug: AppA.Router, options: [port: port()]} | children]
       else
         children
@@ -33,5 +34,13 @@ defmodule AppA.Application do
 
   defp start_server? do
     System.get_env("START_SERVER") == "true"
+  end
+
+  defp postfix do
+    System.get_env("POSTFIX") || random_string()
+  end
+
+  defp random_string do
+    :crypto.strong_rand_bytes(5) |> Base.encode32()
   end
 end

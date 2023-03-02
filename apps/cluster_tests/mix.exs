@@ -1,9 +1,9 @@
-defmodule ClusterFacade.MixProject do
+defmodule ClusterTests.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :cluster_facade,
+      app: :cluster_tests,
       version: "0.1.0",
       build_path: "_build",
       config_path: "config/config.exs",
@@ -11,20 +11,30 @@ defmodule ClusterFacade.MixProject do
       lockfile: "mix.lock",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      mod: {ClusterFacade.Application, []}
+      extra_applications: [:logger]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    []
+    [
+      {:app_a, path: "../app_a", runtime: false},
+      {:app_b, path: "../app_b", runtime: false},
+      {:local_cluster, "~> 1.2", only: [:test]}
+    ]
+  end
+
+  defp aliases do
+    [
+      test: "test --no-start"
+    ]
   end
 end

@@ -10,6 +10,11 @@ defmodule AppA.Router do
     send_resp(conn, 200, "Hey from AppA #{inspect(Node.self())}! Node.list: #{inspect(list)}")
   end
 
+  get "/registry" do
+    list = ClusterRegistry.list()
+    send_resp(conn, 200, inspect(list))
+  end
+
   get "/favicon.ico" do
     send_resp(conn, 200, "sorry, no icon")
   end
