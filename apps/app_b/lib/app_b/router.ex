@@ -11,7 +11,7 @@ defmodule AppB.Router do
   end
 
   get "/registry" do
-    list = ClusterRegistry.list()
+    list = NodeRegistry.all()
     send_resp(conn, 200, inspect(list))
   end
 

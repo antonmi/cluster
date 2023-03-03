@@ -29,7 +29,7 @@ defmodule AppB.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.4"},
       {:libcluster, "~> 3.3"},
-      {:cluster_registry, path: "../cluster_registry"}
+      {:node_registry, github: "antonmi/node_registry"}
     ]
   end
 end

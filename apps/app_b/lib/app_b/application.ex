@@ -13,7 +13,7 @@ defmodule AppB.Application do
 
     children = [
       {Cluster.Supervisor, [topologies, [name: AppB.ClusterSupervisor]]},
-      {ClusterRegistry, "app_b_#{postfix()}"}
+      {NodeRegistry, "app_b_#{postfix()}"}
     ]
 
     children =
