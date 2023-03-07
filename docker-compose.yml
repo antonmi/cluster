@@ -53,6 +53,7 @@ services:
       - customnetwork
     environment:
       - LIVEBOOK_PASSWORD=securesecret
+      - LIVEBOOK_DISTRIBUTION=sname
       - LIVEBOOK_NODE=livebook
       - LIVEBOOK_COOKIE=secret
     ports:

@@ -11,6 +11,10 @@ cond do
             application_name: "cluster-app"
           ]
         ]
+# this works without headless service
+#        gossip: [
+#          strategy: Cluster.Strategy.Gossip
+#        ]
       ]
 
   System.get_env("LOCAL") == "true" ->
@@ -21,7 +25,8 @@ cond do
         ]
       ]
 
-  true -> # docker-compose
+  # docker-compose
+  true ->
     config :libcluster,
       topologies: [
         gossip: [

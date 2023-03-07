@@ -1,3 +1,4 @@
+# use for Cluster.Strategy.Kubernetes.DNS
 apiVersion: v1
 kind: Service
 

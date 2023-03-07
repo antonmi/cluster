@@ -11,6 +11,9 @@ cond do
             application_name: "cluster-app"
           ]
         ]
+#        gossip: [
+#          strategy: Cluster.Strategy.Gossip
+#        ]
       ]
 
   System.get_env("LOCAL") == "true" ->
@@ -21,7 +24,8 @@ cond do
         ]
       ]
 
-  true -> # docker-compose
+  # docker-compose
+  true ->
     config :libcluster,
       topologies: [
         gossip: [
