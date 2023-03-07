@@ -1,8 +1,8 @@
-FROM bitwalker/alpine-elixir:1.14 as build
+FROM elixir:1.14.3 as build
 
 COPY . .
 
-RUN mix deps.get && mix compile
+RUN mix local.hex --force && mix deps.get && mix compile
 
 CMD elixir --sname b -S mix run --no-halt
 

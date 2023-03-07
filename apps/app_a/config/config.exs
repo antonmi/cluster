@@ -4,7 +4,7 @@ cond do
   System.get_env("IN_K8S") == "true" ->
     config :libcluster,
       topologies: [
-        k8s_example: [
+        k8s_dns: [
           strategy: Cluster.Strategy.Kubernetes.DNS,
           config: [
             service: "beam-cluster",
@@ -16,7 +16,7 @@ cond do
   System.get_env("LOCAL") == "true" ->
     config :libcluster,
       topologies: [
-        epmd: [
+        local_epmd: [
           strategy: Cluster.Strategy.LocalEpmd
         ]
       ]
@@ -29,5 +29,3 @@ cond do
         ]
       ]
 end
-
-config :cluster_facade, service_name: :app_a

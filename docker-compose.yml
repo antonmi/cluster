@@ -3,8 +3,6 @@ networks:
   customnetwork:
     ipam:
       driver: default
-      config:
-        - subnet: 172.16.238.0/24
 
 services:
   app-a1:
@@ -16,20 +14,17 @@ services:
       - PORT=4001
       - START_SERVER=true
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.11
+      - customnetwork
   app-a2:
     build: ./apps/app_a/
     command: elixir --sname "app-a2" --cookie secret --no-halt -S mix run
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.12
+      - customnetwork
   app-a3:
     build: ./apps/app_a/
     command: elixir --sname "app-a3" --cookie secret --no-halt -S mix run
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.13
+      - customnetwork
 
   app-b1:
     build: ./apps/app_b/
@@ -40,25 +35,28 @@ services:
       - PORT=5001
       - START_SERVER=true
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.21
+      - customnetwork
   app-b2:
     build: ./apps/app_b/
     command: elixir --sname "app-b2" --cookie secret --no-halt -S mix run
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.22
+      - customnetwork
   app-b3:
     build: ./apps/app_b/
     command: elixir --sname "app-b3" --cookie secret --no-halt -S mix run
     networks:
-      customnetwork:
-        ipv4_address: 172.16.238.23
-#  livebook:
-#    image: livebook/livebook
-#    environment:
-#      - LIVEBOOK_PASSWORD=securesecret
-#      - LIVEBOOK_DEFAULT_RUNTIME=attached:app-b3:secret
-#    ports:
-#      - "8080:8080"
-#      - "8081:8081"
+      - customnetwork
+
+  livebook:
+    build: ../livebook/
+    networks:
+      - customnetwork
+    environment:
+      - LIVEBOOK_PASSWORD=securesecret
+#      - LIVEBOOK_DEFAULT_RUNTIME=standalone
+      - LIVEBOOK_NODE=livebook
+      - LIVEBOOK_COOKIE=secret
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+

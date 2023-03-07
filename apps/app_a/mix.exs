@@ -29,7 +29,7 @@ defmodule AppA.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.4"},
       {:libcluster, "~> 3.3"},
-      {:node_registry, "~> 0.1"}
+      {:node_registry, "~> 0.1.1"}
     ]
   end
 end
