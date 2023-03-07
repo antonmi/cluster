@@ -48,12 +48,11 @@ services:
       - customnetwork
 
   livebook:
-    build: ../livebook/
+    image: livebook/livebook
     networks:
       - customnetwork
     environment:
       - LIVEBOOK_PASSWORD=securesecret
-#      - LIVEBOOK_DEFAULT_RUNTIME=standalone
       - LIVEBOOK_NODE=livebook
       - LIVEBOOK_COOKIE=secret
     ports:
