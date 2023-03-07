@@ -21,21 +21,11 @@ cond do
         ]
       ]
 
-  true ->
+  true -> # docker-compose
     config :libcluster,
       topologies: [
-        epmd: [
-          strategy: Cluster.Strategy.Epmd,
-          config: [
-            hosts: [
-              :"app-a@172.16.238.11",
-              :"app-a@172.16.238.12",
-              :"app-a@172.16.238.13",
-              :"app-b@172.16.238.21",
-              :"app-b@172.16.238.22",
-              :"app-b@172.16.238.23"
-            ]
-          ]
+        gossip: [
+          strategy: Cluster.Strategy.Gossip
         ]
       ]
 end

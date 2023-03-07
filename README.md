@@ -10,7 +10,7 @@ LOCAL=true iex --name app_b@127.0.0.1 -S mix
 
 ### Connect in docker container, when running with docker-compose:
 docker-compose exec app-a2 sh
-iex --name app_a@127.0.0.1 --cookie secret -S mix
+iex --sname app_a_console --cookie secret -S mix
 
 ### Kubernetes:
 check:

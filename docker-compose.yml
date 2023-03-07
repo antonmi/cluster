@@ -9,7 +9,7 @@ networks:
 services:
   app-a1:
     build: ./apps/app_a/
-    command: elixir --name "app-a@172.16.238.11" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-a1" --cookie secret --no-halt -S mix run
     ports:
       - "4001:4001"
     environment:
@@ -20,20 +20,20 @@ services:
         ipv4_address: 172.16.238.11
   app-a2:
     build: ./apps/app_a/
-    command: elixir --name "app-a@172.16.238.12" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-a2" --cookie secret --no-halt -S mix run
     networks:
       customnetwork:
         ipv4_address: 172.16.238.12
   app-a3:
     build: ./apps/app_a/
-    command: elixir --name "app-a@172.16.238.13" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-a3" --cookie secret --no-halt -S mix run
     networks:
       customnetwork:
         ipv4_address: 172.16.238.13
 
   app-b1:
     build: ./apps/app_b/
-    command: elixir --name "app-b@172.16.238.21" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-b1" --cookie secret --no-halt -S mix run
     ports:
       - "5001:5001"
     environment:
@@ -44,13 +44,21 @@ services:
         ipv4_address: 172.16.238.21
   app-b2:
     build: ./apps/app_b/
-    command: elixir --name "app-b@172.16.238.22" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-b2" --cookie secret --no-halt -S mix run
     networks:
       customnetwork:
         ipv4_address: 172.16.238.22
   app-b3:
     build: ./apps/app_b/
-    command: elixir --name "app-b@172.16.238.23" --cookie secret --no-halt -S mix run
+    command: elixir --sname "app-b3" --cookie secret --no-halt -S mix run
     networks:
       customnetwork:
         ipv4_address: 172.16.238.23
+#  livebook:
+#    image: livebook/livebook
+#    environment:
+#      - LIVEBOOK_PASSWORD=securesecret
+#      - LIVEBOOK_DEFAULT_RUNTIME=attached:app-b3:secret
+#    ports:
+#      - "8080:8080"
+#      - "8081:8081"
