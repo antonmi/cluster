@@ -1,14 +1,15 @@
 version: "3.9"
 networks:
   customnetwork:
-    ipam:
-      driver: default
+    driver: bridge
 
 services:
   app-a1:
     build: ./apps/app_a/
-    command: elixir --sname "app-a1" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-a1@app-a1.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-a1.docker
     ports:
+      - "9000:9000"
       - "4001:4001"
     environment:
       - PORT=4001
@@ -17,19 +18,23 @@ services:
       - customnetwork
   app-a2:
     build: ./apps/app_a/
-    command: elixir --sname "app-a2" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-a2@app-a2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-a2.docker
     networks:
       - customnetwork
   app-a3:
     build: ./apps/app_a/
-    command: elixir --sname "app-a3" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-a3@app-a3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-a3.docker
     networks:
       - customnetwork
 
   app-b1:
     build: ./apps/app_b/
-    command: elixir --sname "app-b1" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-b1@app-b1.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-b1.docker
     ports:
+      - "10000:9000"
       - "5001:5001"
     environment:
       - PORT=5001
@@ -38,24 +43,29 @@ services:
       - customnetwork
   app-b2:
     build: ./apps/app_b/
-    command: elixir --sname "app-b2" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-b2@app-b2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-b2.docker
     networks:
       - customnetwork
   app-b3:
     build: ./apps/app_b/
-    command: elixir --sname "app-b3" --cookie secret --no-halt -S mix run
+    command: elixir --name "app-b3@app-b3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
+    hostname: app-b3.docker
     networks:
       - customnetwork
 
   livebook:
-    image: livebook/livebook
+#    image: livebook/livebook
+    build: ../livebook/
     networks:
       - customnetwork
     environment:
+      - LIBCLUSTER_STRATEGY=gossip
       - LIVEBOOK_PASSWORD=securesecret
-      - LIVEBOOK_DISTRIBUTION=sname
-      - LIVEBOOK_NODE=livebook
+      - LIVEBOOK_DISTRIBUTION=name
+      - LIVEBOOK_NODE=livebook@livebook.docker
       - LIVEBOOK_COOKIE=secret
+    hostname: livebook.docker
     ports:
       - "8080:8080"
       - "8081:8081"

@@ -8,9 +8,18 @@ https://blog.erlware.org/epmdlessless/
 LOCAL=true iex --name app_a@127.0.0.1 -S mix
 LOCAL=true iex --name app_b@127.0.0.1 -S mix
 
-### Connect in docker container, when running with docker-compose:
-docker-compose exec app-a2 sh
-iex --sname app_a_console --cookie secret -S mix
+### docker-compose:
+#### Remote shell inside a container:
+docker-compose exec app-a1 bash
+iex --name app_a@app-a1.docker  --cookie secret --remsh app-a1@app-a1.docker
+or to other nodes
+iex --name app_a@app-a1.docker  --cookie secret --remsh app-b1@app-b1.docker
+#### From local
+Modify /etc/hosts 
+127.0.0.1       app-a1.docker
+127.0.0.1       app-b1.docker
+iex --cookie secret --name local@app-a1.docker --erl '-dist_listen false -erl_epmd_port 9000' --remsh app-a1@app-a1.docker
+iex --cookie secret --name local@app-b1.docker --erl '-dist_listen false -erl_epmd_port 10000' --remsh app-b1@app-b1.docker
 
 ### Kubernetes:
 check:
@@ -31,3 +40,17 @@ docker build -t app-b .
 Connect to cluster:
 kubectl exec app-a-7f7d9d9f4b-4j2xg -it sh
 START_SERVER=false iex --name app_a@127.0.0.1 --cookie secret -S mix
+
+
+### Experiments
+# connect to a node in container
+Modify /etc/hosts
+127.0.0.1       local.docker
+
+Run container
+docker run --hostname local.docker -it -p9000:9000 app-a bash
+Run node
+iex --cookie secret --name docker@local.docker --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' -S mix
+Locally
+iex --cookie secret --name local@local.docker --erl '-dist_listen false -erl_epmd_port 9000' --remsh docker@local.docker
+
