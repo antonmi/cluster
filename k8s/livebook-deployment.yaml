@@ -14,10 +14,8 @@ spec:
         cluster: beam
     spec:
       containers:
-        - name: locallivebook
-          image: locallivebook
-          imagePullPolicy: Never
-#          image: livebook/livebook
+        - name: livebook
+          image: antonmi/livebook
           ports:
             - containerPort: 8080
             - containerPort: 8081
@@ -38,12 +36,5 @@ spec:
               value: "cluster-app@$(POD_IP)"
             - name: LIVEBOOK_DEFAULT_RUNTIME
               value: "attached:$(LIVEBOOK_NODE):$(LIVEBOOK_COOKIE)"
-#          command: [ "elixir" ]
-#          args: [
-#            "--name",
-#            "livebok@$(POD_IP)",
-#            "--cookie","$(ERLANG_COOKIE)",
-#            "--no-halt",
-#            "-S","mix",
-#            "run"
-#          ]
+            - name: LIBCLUSTER_STRATEGY
+              value: "kubernetes.dns"
