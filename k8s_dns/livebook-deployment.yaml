@@ -20,6 +20,8 @@ spec:
             - containerPort: 8080
             - containerPort: 8081
           env:
+            - name: LIBCLUSTER_STRATEGY
+              value: "kubernetes.dns"
             - name: LIVEBOOK_PASSWORD
               value: "securesecret"
             - name: LIVEBOOK_COOKIE
@@ -36,5 +38,3 @@ spec:
               value: "cluster-app@$(POD_IP)"
             - name: LIVEBOOK_DEFAULT_RUNTIME
               value: "attached:$(LIVEBOOK_NODE):$(LIVEBOOK_COOKIE)"
-            - name: LIBCLUSTER_STRATEGY
-              value: "kubernetes.dns"

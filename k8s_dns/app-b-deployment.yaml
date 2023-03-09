@@ -19,9 +19,10 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 4002
+            - containerPort: 9000
           env:
-            - name: IN_K8S
-              value: "true"
+            - name: LIBCLUSTER_STRATEGY
+              value: "kubernetes.dns"
             - name: PORT
               value: "4002"
             - name: START_SERVER
@@ -37,6 +38,8 @@ spec:
             "--name",
             "cluster-app@$(POD_IP)",
             "--cookie","$(ERLANG_COOKIE)",
+            "--erl",
+            "-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000",
             "--no-halt",
             "-S","mix",
             "run"
