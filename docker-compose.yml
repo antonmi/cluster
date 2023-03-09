@@ -55,8 +55,7 @@ services:
       - customnetwork
 
   livebook:
-#    image: livebook/livebook
-    build: ../livebook/
+    image: antonmi/livebook
     networks:
       - customnetwork
     environment:
@@ -65,6 +64,7 @@ services:
       - LIVEBOOK_DISTRIBUTION=name
       - LIVEBOOK_NODE=livebook@livebook.docker
       - LIVEBOOK_COOKIE=secret
+      - LIVEBOOK_DEFAULT_RUNTIME=attached:livebook@livebook.docker:secret
     hostname: livebook.docker
     ports:
       - "8080:8080"
