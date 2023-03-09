@@ -19,6 +19,7 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 4001
+            - containerPort: 9000
           env:
             - name: LIBCLUSTER_STRATEGY
               value: "kubernetes.dns"
