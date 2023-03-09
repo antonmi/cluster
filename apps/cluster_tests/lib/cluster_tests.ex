@@ -1,3 +1,2 @@
 defmodule ClusterTests do
-
 end

@@ -11,9 +11,9 @@ cond do
             application_name: "cluster-app"
           ]
         ]
-#        gossip: [
-#          strategy: Cluster.Strategy.Gossip
-#        ]
+        #        gossip: [
+        #          strategy: Cluster.Strategy.Gossip
+        #        ]
       ]
 
   System.get_env("LOCAL") == "true" ->

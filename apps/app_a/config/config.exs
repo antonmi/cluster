@@ -1,7 +1,7 @@
 import Config
 
 cond do
-  System.get_env("IN_K8S") == "true" ->
+  System.get_env("LIBCLUSTER_STRATEGY") == "kubernetes.dns" ->
     config :libcluster,
       topologies: [
         k8s_dns: [
@@ -11,10 +11,14 @@ cond do
             application_name: "cluster-app"
           ]
         ]
-# this works without headless service
-#        gossip: [
-#          strategy: Cluster.Strategy.Gossip
-#        ]
+      ]
+
+  System.get_env("LIBCLUSTER_STRATEGY") == "gossip" ->
+    config :libcluster,
+      topologies: [
+        gossip: [
+          strategy: Cluster.Strategy.Gossip
+        ]
       ]
 
   System.get_env("LOCAL") == "true" ->
@@ -27,10 +31,9 @@ cond do
 
   # docker-compose
   true ->
-    config :libcluster,
-      topologies: [
-        gossip: [
-          strategy: Cluster.Strategy.Gossip
-        ]
-      ]
+    if Mix.env() == :test do
+      config :libcluster, topologies: []
+    else
+      raise "LIBCLUSTER_STRATEGY is not set"
+    end
 end
