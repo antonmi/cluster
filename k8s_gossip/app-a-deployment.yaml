@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-a-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: app-a
+  template:
+    metadata:
+      labels:
+        component: app-a
+        cluster: beam
+    spec:
+      containers:
+        - name: app-a
+          image: app-a
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4001
+            - containerPort: 9000
+          env:
+            - name: LIBCLUSTER_STRATEGY
+              value: "gossip"
+            - name: PORT
+              value: "4001"
+            - name: START_SERVER
+              value: "true"
+            - name: ERLANG_COOKIE
+              value: "secret"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          command: [ "elixir" ]
+          args: [
+            "--name",
+            "app-a@$(POD_IP)",
+            "--cookie","$(ERLANG_COOKIE)",
+            "--erl",
+            "-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000",
+            "--no-halt",
+            "-S","mix",
+            "run"
+          ]
