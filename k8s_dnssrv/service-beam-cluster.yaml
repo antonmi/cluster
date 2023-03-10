@@ -1,0 +1,12 @@
+# use for Cluster.Strategy.Kubernetes.DNS
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: beam-headless
+  labels:
+    cluster: beam
+spec:
+  clusterIP: None
+  selector:
+    cluster: beam
