@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: cluster-app
+  name: app-b
 spec:
-  serviceName: "beam-headless"
+  serviceName: "beam-cluster"
   replicas: 3
   selector:
     matchLabels:
@@ -11,21 +11,21 @@ spec:
   template:
     metadata:
       labels:
-        component: app-a
+        component: app-b
         cluster: beam
     spec:
       containers:
-        - name: app-a
-          image: app-a
+        - name: app-b
+          image: app-b
           imagePullPolicy: Never
           ports:
-            - containerPort: 4001
+            - containerPort: 4002
             - containerPort: 9000
           env:
             - name: LIBCLUSTER_STRATEGY
-              value: "kubernetes.dnssrv"
+              value: "kubernetes"
             - name: PORT
-              value: "4001"
+              value: "4002"
             - name: START_SERVER
               value: "true"
             - name: ERLANG_COOKIE
@@ -41,7 +41,7 @@ spec:
           command: [ "elixir" ]
           args: [
             "--name",
-            "cluster-app@$(POD_NAME).beam-headless.default.svc.cluster.local",
+            "cluster-app@$(POD_NAME).beam-cluster.default.svc.cluster.local",
             "--cookie","$(ERLANG_COOKIE)",
             "--erl",
             "-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000",

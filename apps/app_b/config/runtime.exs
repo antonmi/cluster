@@ -1,15 +1,18 @@
 import Config
 
 cond do
-  System.get_env("LIBCLUSTER_STRATEGY") == "kubernetes.dnssrv" ->
+  System.get_env("LIBCLUSTER_STRATEGY") == "kubernetes" ->
     config :libcluster,
            topologies: [
-             k8s_dnssrv: [
-               strategy: Cluster.Strategy.Kubernetes.DNSSRV,
+             k8s: [
+               strategy: Cluster.Strategy.Kubernetes,
                config: [
-                 service: "beam-headless",
-                 application_name: "cluster-app",
-                 namespace: "default",
+                 mode: :hostname,
+                 kubernetes_ip_lookup_mode: :pods,
+                 kubernetes_service_name: "beam-cluster",
+                 kubernetes_node_basename: "cluster-app",
+                 kubernetes_selector: "cluster=beam",
+                 kubernetes_namespace: "default",
                ]
              ]
            ]

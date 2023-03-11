@@ -12,6 +12,7 @@ services:
       - "9000:9000"
       - "4001:4001"
     environment:
+      - LIBCLUSTER_STRATEGY=gossip
       - PORT=4001
       - START_SERVER=true
     networks:
@@ -20,12 +21,16 @@ services:
     build: ./apps/app_a/
     command: elixir --name "app-a2@app-a2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
     hostname: app-a2.docker
+    environment:
+      - LIBCLUSTER_STRATEGY=gossip
     networks:
       - customnetwork
   app-a3:
     build: ./apps/app_a/
     command: elixir --name "app-a3@app-a3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
     hostname: app-a3.docker
+    environment:
+      - LIBCLUSTER_STRATEGY=gossip
     networks:
       - customnetwork
 
@@ -39,18 +44,23 @@ services:
     environment:
       - PORT=5001
       - START_SERVER=true
+      - LIBCLUSTER_STRATEGY=gossip
     networks:
       - customnetwork
   app-b2:
     build: ./apps/app_b/
     command: elixir --name "app-b2@app-b2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
     hostname: app-b2.docker
+    environment:
+      - LIBCLUSTER_STRATEGY=gossip
     networks:
       - customnetwork
   app-b3:
     build: ./apps/app_b/
     command: elixir --name "app-b3@app-b3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
     hostname: app-b3.docker
+    environment:
+      - LIBCLUSTER_STRATEGY=gossip
     networks:
       - customnetwork
 

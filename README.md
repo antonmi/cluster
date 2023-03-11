@@ -38,8 +38,10 @@ docker build -t app-a .
 docker build -t app-b .
 
 Connect to cluster:
-kubectl exec app-a-7f7d9d9f4b-4j2xg -it sh
-START_SERVER=false iex --name app_a@127.0.0.1 --cookie secret -S mix
+Modify /etc/hosts
+127.0.0.1       app-a-0.beam-headless.default.svc.cluster.local
+iex --cookie secret --name local@app-a-0.beam-headless.default.svc.cluster.local --erl '-dist_listen false -erl_epmd_port 9000' --remsh cluster-app@app-a-0.beam-headless.default.svc.cluster.local
+
 
 
 ### Experiments

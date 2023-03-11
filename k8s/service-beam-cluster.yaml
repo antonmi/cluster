@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: beam-headless
+  name: beam-cluster
   labels:
     cluster: beam
 spec:
