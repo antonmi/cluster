@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-a-deployment
+  name: app-b-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      component: app-a
+      component: app-b
   template:
     metadata:
       labels:
-        component: app-a
+        component: app-b
         cluster: beam
     spec:
       containers:
-        - name: app-a
-          image: app-a
+        - name: app-b
+          image: app-b
           imagePullPolicy: Never
           ports:
-            - containerPort: 4001
+            - containerPort: 4002
             - containerPort: 9000
           env:
             - name: LIBCLUSTER_STRATEGY
               value: "kubernetes.dns"
             - name: PORT
-              value: "4001"
+              value: "4002"
             - name: START_SERVER
               value: "true"
             - name: ERLANG_COOKIE
@@ -44,3 +44,17 @@ spec:
             "-S","mix",
             "run"
           ]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-b
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 4002
+      targetPort: 4002
+  selector:
+    component: app-b
+
