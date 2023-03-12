@@ -7,14 +7,11 @@ metadata:
 spec:
   containers:
     - name: livebook
-      image: livebook
-      imagePullPolicy: Never
+      image: livebook/livebook:edge
       ports:
         - containerPort: 8080
         - containerPort: 8081
       env:
-        - name: LIBCLUSTER_STRATEGY
-          value: "kubernetes"
         - name: LIVEBOOK_PASSWORD
           value: "securesecret"
         - name: LIVEBOOK_COOKIE
@@ -23,6 +20,8 @@ spec:
           value: "secret"
         - name: LIVEBOOK_DISTRIBUTION
           value: "name"
+        - name: LIVEBOOK_PORT
+          value: "8080"
         - name: POD_IP
           valueFrom:
             fieldRef:
@@ -35,3 +34,20 @@ spec:
           value: "cluster-app@$(POD_NAME)"
         - name: LIVEBOOK_DEFAULT_RUNTIME
           value: "attached:$(LIVEBOOK_NODE):$(LIVEBOOK_COOKIE)"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: livebook
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  #    - name: web-socket
+  #      port: 8081
+  #      targetPort: 8081
+  selector:
+    component: livebook

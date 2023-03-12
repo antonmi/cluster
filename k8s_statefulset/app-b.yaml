@@ -49,3 +49,16 @@ spec:
             "-S","mix",
             "run"
           ]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-b
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 4002
+      targetPort: 4002
+  selector:
+    component: app-b
