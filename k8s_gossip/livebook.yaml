@@ -4,13 +4,11 @@ metadata:
   name: livebook
   labels:
     component: livebook
-    cluster: beam
 spec:
-  hostname: livebook
-  subdomain: beam-cluster
   containers:
     - name: livebook
       image: livebook/livebook:edge
+      imagePullPolicy: Never
       ports:
         - containerPort: 8080
         - containerPort: 8081
@@ -34,7 +32,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: LIVEBOOK_NODE
-          value: "livebook@$(POD_NAME).beam-cluster.default.svc.cluster.local"
+          value: "livebook@livebook"
         - name: LIVEBOOK_DEFAULT_RUNTIME
           value: "attached:$(LIVEBOOK_NODE):$(LIVEBOOK_COOKIE)"
 
@@ -54,3 +52,4 @@ spec:
   #      targetPort: 8081
   selector:
     component: livebook
+

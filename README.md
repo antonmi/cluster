@@ -24,7 +24,7 @@ iex --cookie secret --name local@app-b1.docker --erl '-dist_listen false -erl_ep
 ### Kubernetes:
 check:
 kubectl get service
-minikube service load-balancer-service-a
+minikube service app-a
 
 restart:
 kubectl get deployment
