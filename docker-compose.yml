@@ -65,13 +65,13 @@ services:
       - customnetwork
 
   livebook:
-    image: antonmi/livebook
+    image: livebook/livebook:edge
     networks:
       - customnetwork
     environment:
-      - LIBCLUSTER_STRATEGY=gossip
       - LIVEBOOK_PASSWORD=securesecret
       - LIVEBOOK_DISTRIBUTION=name
+      - LIVEBOOK_PORT=8080
       - LIVEBOOK_NODE=livebook@livebook.docker
       - LIVEBOOK_COOKIE=secret
       - LIVEBOOK_DEFAULT_RUNTIME=attached:livebook@livebook.docker:secret
