@@ -27,8 +27,7 @@ defmodule ClusterTests.MixProject do
   defp deps do
     [
       {:app_a, path: "../app_a", runtime: false},
-      {:app_b, path: "../app_b", runtime: false},
-      {:local_cluster, "~> 1.2", only: [:test]}
+      {:app_b, path: "../app_b", runtime: false}
     ]
   end
 

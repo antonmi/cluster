@@ -1,6 +1,6 @@
 version: "3.9"
 networks:
-  customnetwork:
+  cluster-network:
     driver: bridge
 
 services:
@@ -16,7 +16,7 @@ services:
       - PORT=4001
       - START_SERVER=true
     networks:
-      - customnetwork
+      - cluster-network
   app-a2:
     build: ./apps/app_a/
     command: elixir --name "app-a2@app-a2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
@@ -24,7 +24,7 @@ services:
     environment:
       - LIBCLUSTER_STRATEGY=gossip
     networks:
-      - customnetwork
+      - cluster-network
   app-a3:
     build: ./apps/app_a/
     command: elixir --name "app-a3@app-a3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
@@ -32,7 +32,7 @@ services:
     environment:
       - LIBCLUSTER_STRATEGY=gossip
     networks:
-      - customnetwork
+      - cluster-network
 
   app-b1:
     build: ./apps/app_b/
@@ -46,7 +46,7 @@ services:
       - START_SERVER=true
       - LIBCLUSTER_STRATEGY=gossip
     networks:
-      - customnetwork
+      - cluster-network
   app-b2:
     build: ./apps/app_b/
     command: elixir --name "app-b2@app-b2.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
@@ -54,7 +54,7 @@ services:
     environment:
       - LIBCLUSTER_STRATEGY=gossip
     networks:
-      - customnetwork
+      - cluster-network
   app-b3:
     build: ./apps/app_b/
     command: elixir --name "app-b3@app-b3.docker" --erl '-kernel inet_dist_listen_min 9000 inet_dist_listen_max 9000' --cookie secret --no-halt -S mix run
@@ -62,12 +62,12 @@ services:
     environment:
       - LIBCLUSTER_STRATEGY=gossip
     networks:
-      - customnetwork
+      - cluster-network
 
   livebook:
     image: livebook/livebook:edge
     networks:
-      - customnetwork
+      - cluster-network
     environment:
       - LIVEBOOK_PASSWORD=securesecret
       - LIVEBOOK_DISTRIBUTION=name

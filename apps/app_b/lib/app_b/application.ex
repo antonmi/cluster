@@ -28,7 +28,7 @@ defmodule AppB.Application do
   end
 
   defp port do
-    (System.get_env("PORT") || "4001")
+    (System.get_env("PORT") || "5001")
     |> String.to_integer()
   end
 
