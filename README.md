@@ -1,6 +1,6 @@
 # Cluster
 
-## Experiment with clustering. Check the [Medium article](TODO)
+## Experiment with clustering. Check the [Medium article](https://anton-mishchuk.medium.com/notes-on-clustering-elixir-applications-49707ed53910)
 
 ### Run locally:
 START_SERVER=true iex --name app_a@127.0.0.1 --cookie secret -S mix
